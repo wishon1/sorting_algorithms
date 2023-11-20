@@ -1,5 +1,4 @@
 #include "sort.h"
-#include <stdio.h>
 /**
  * bubble_sort - function that sorts a double link list in an
  * ascending order
