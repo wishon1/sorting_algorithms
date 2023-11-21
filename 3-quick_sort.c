@@ -4,7 +4,7 @@ void quick_sort(int *array, size_t size);
 size_t arr_size;
 
 /**
- * quick_sort - sorts an array of integers in ascending order using 
+ * quick_sort - sorts an array of integers in ascending order using
  * the Quick sort algorithm
  * @array: the array of elements to sort.
  * @size: the length of the array.
@@ -14,7 +14,7 @@ void quick_sort(int *array, size_t size)
 
 	if (array == NULL || size < 2)
 		return;
-	
+
 	arr_size = size;
 	quick_sort_alone(array, 0, size - 1);
 }
@@ -28,15 +28,14 @@ void quick_sort(int *array, size_t size)
 void quick_sort_alone(int *array, int low, int high)
 {
 	int partition_arr;
-	
-	if (low >= high)
-	{
-		/* partition the array */
-		partition_arr = lomuto_partition(array, low, high);
 
-		quick_sort_alone(array, low, partition_arr - 1);
-		quick_sort_alone(array, partition_arr + 1, high);
-	}
+	if (low >= high)
+		return;
+	/* partition the array */
+	partition_arr = lomuto_partition(array, low, high);
+
+	quick_sort_alone(array, low, partition_arr - 1);
+	quick_sort_alone(array, partition_arr + 1, high);
 }
 
 /**
@@ -58,6 +57,7 @@ void swap_elem(int *elem1, int *elem2)
  * @arr: the array of elements to sort.
  * @low: the array at index 0.
  * @high: the last element(size - 1)
+ * Return: return the patitioned elements
  */
 int lomuto_partition(int arr[], int low, int high)
 {
@@ -66,7 +66,7 @@ int lomuto_partition(int arr[], int low, int high)
 
 	for (j = low; j < high; j++)
 	{
-		if(arr[j] < pivot)
+		if (arr[j] < pivot)
 		{
 			i++;
 			if (i != 1)
@@ -82,6 +82,5 @@ int lomuto_partition(int arr[], int low, int high)
 		swap_elem(&arr[i], &arr[high]);
 		print_array(arr, arr_size);
 	}
-
 	return (i);
 }
