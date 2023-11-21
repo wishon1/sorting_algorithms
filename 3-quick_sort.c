@@ -1,4 +1,8 @@
-#include <stdio.h>
+#include "sort.h"
+
+void quick_sort(int *array, size_t size);
+size_t arr_size;
+
 /**
  * quick_sort - sorts an array of integers in ascending order using 
  * the Quick sort algorithm
@@ -7,10 +11,12 @@
  */
 void quick_sort(int *array, size_t size)
 {
+
 	if (array == NULL || size < 2)
 		return;
-
-	quick_sort_alone(array, 0, size - 1)
+	
+	arr_size = size;
+	quick_sort_alone(array, 0, size - 1);
 }
 
 /**
@@ -19,15 +25,18 @@ void quick_sort(int *array, size_t size)
  * @low: the firt index.
  * @high: the size - 1 elements.
  */
-void quick_sort_alone(int *array, int low, int low)
+void quick_sort_alone(int *array, int low, int high)
 {
 	int partition_arr;
+	
+	if (low >= high)
+	{
+		/* partition the array */
+		partition_arr = lomuto_partition(array, low, high);
 
-	/* partition the array */
-	partition_arr = lomotu_partition(array, low, high);
-
-	quick_sort_alone(array, low, partition_arr - 1);
-	quick_sort_alone(arry, partition_arr + 1, high);
+		quick_sort_alone(array, low, partition_arr - 1);
+		quick_sort_alone(array, partition_arr + 1, high);
+	}
 }
 
 /**
@@ -39,30 +48,40 @@ void swap_elem(int *elem1, int *elem2)
 {
 	int temp;
 
-	temp = elem1;
-	elem1 = elem2;
-	elem2 = temp;
+	temp = *elem1;
+	*elem1 = *elem2;
+	*elem2 = temp;
 }
 
 /**
- * lomotu_partition - using lomotu method to partition and swap.
+ * lomuto_partition - using lomotu method to partition and swap.
  * @arr: the array of elements to sort.
  * @low: the array at index 0.
  * @high: the last element(size - 1)
  */
-void lomotu_partition(int arr[], int low, int high)
+int lomuto_partition(int arr[], int low, int high)
 {
 	int pivot = arr[high];
-	int i = low - 1;
+	int j, i = low - 1;
 
-	for ( i = 0; i <= (high - 1); i++)
+	for (j = low; j < high; j++)
 	{
-		if(arr[i] <= pivot)
+		if(arr[j] < pivot)
 		{
 			i++;
-			swap_elem(&arr[i], &arr[j]);
+			if (i != 1)
+			{
+				swap_elem(&arr[i], &arr[j]);
+				print_array(arr, arr_size);
+			}
 		}
 	}
-	swap_elem(&arr[i + 1], &arr[high]);
-	return i + 1;
+	i++;
+	if (i != high)
+	{
+		swap_elem(&arr[i], &arr[high]);
+		print_array(arr, arr_size);
+	}
+
+	return (i);
 }
